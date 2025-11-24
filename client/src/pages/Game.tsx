@@ -5,10 +5,12 @@ import { GameScene } from '../components/game/GameScene';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { RefreshCw, RotateCcw } from 'lucide-react';
+import { useRotation } from '@/contexts/RotationContext';
 import generatedBackground from '@assets/generated_images/sci-fi_holographic_nebula_background.png';
 
 export default function Game() {
   const [gameState, setGameState] = useState<GameState>(initialGameState);
+  const { triggerRotation } = useRotation();
   
   const handlePieceClick = (id: string) => {
     const piece = gameState.pieces.find(p => p.id === id);
@@ -63,6 +65,9 @@ export default function Game() {
         winner: null, // TODO: Check win condition
         history: [...gameState.history, { from: selectedPiece.position, to: targetPos, pieceId: selectedPiece.id }]
       });
+      
+      // Trigger 180-degree rotation after move
+      triggerRotation();
     } else {
       // Deselect if clicking invalid empty cell
       setGameState(prev => ({
@@ -75,6 +80,7 @@ export default function Game() {
 
   const resetGame = () => {
     setGameState(initialGameState);
+    triggerRotation();
   };
 
   return (
