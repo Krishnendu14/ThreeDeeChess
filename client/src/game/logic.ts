@@ -1,6 +1,6 @@
 import { GameState, Piece, PieceColor, PieceType, Position } from './types';
 
-const BOARD_SIZE = 4;
+const BOARD_DIMS = { x: 4, y: 6, z: 4 };
 
 export const initialGameState: GameState = {
   pieces: initializePieces(),
@@ -43,22 +43,22 @@ function initializePieces(): Piece[] {
     }
   }
 
-  // Black Pieces (Top - Level 3 & 2)
-  // Level 3: Officers (Mirrored)
-  addPiece('rook', 'black', 0, 3, 3);
-  addPiece('knight', 'black', 1, 3, 3);
-  addPiece('knight', 'black', 2, 3, 3);
-  addPiece('rook', 'black', 3, 3, 3);
+  // Black Pieces (Top - Level 5 & 4)
+  // Level 5: Officers (Mirrored)
+  addPiece('rook', 'black', 0, 5, 3);
+  addPiece('knight', 'black', 1, 5, 3);
+  addPiece('knight', 'black', 2, 5, 3);
+  addPiece('rook', 'black', 3, 5, 3);
 
-  addPiece('bishop', 'black', 0, 3, 2);
-  addPiece('queen', 'black', 1, 3, 2);
-  addPiece('king', 'black', 2, 3, 2);
-  addPiece('bishop', 'black', 3, 3, 2);
+  addPiece('bishop', 'black', 0, 5, 2);
+  addPiece('queen', 'black', 1, 5, 2);
+  addPiece('king', 'black', 2, 5, 2);
+  addPiece('bishop', 'black', 3, 5, 2);
 
-  // Level 2: Pawns (Back 2 rows of level 2)
+  // Level 4: Pawns (Back 2 rows of level 4)
   for (let x = 0; x < 4; x++) {
     for (let z = 2; z < 4; z++) {
-       addPiece('pawn', 'black', x, 2, z);
+       addPiece('pawn', 'black', x, 4, z);
     }
   }
 
@@ -70,7 +70,7 @@ export function isValidMove(gameState: GameState, from: Position, to: Position):
   if (!piece) return false;
 
   // Check bounds
-  if (to.x < 0 || to.x >= BOARD_SIZE || to.y < 0 || to.y >= BOARD_SIZE || to.z < 0 || to.z >= BOARD_SIZE) return false;
+  if (to.x < 0 || to.x >= BOARD_DIMS.x || to.y < 0 || to.y >= BOARD_DIMS.y || to.z < 0 || to.z >= BOARD_DIMS.z) return false;
 
   // Check if destination is occupied by friendly piece
   const destPiece = gameState.pieces.find(p => p.position.x === to.x && p.position.y === to.y && p.position.z === to.z);
@@ -145,9 +145,9 @@ export function getValidMoves(gameState: GameState, pieceId: string): Position[]
   if (!piece) return [];
 
   const moves: Position[] = [];
-  for (let x = 0; x < BOARD_SIZE; x++) {
-    for (let y = 0; y < BOARD_SIZE; y++) {
-      for (let z = 0; z < BOARD_SIZE; z++) {
+  for (let x = 0; x < BOARD_DIMS.x; x++) {
+    for (let y = 0; y < BOARD_DIMS.y; y++) {
+      for (let z = 0; z < BOARD_DIMS.z; z++) {
         const target = { x, y, z };
         if (isValidMove(gameState, piece.position, target)) {
           // Need to check path collision for sliding pieces (Rook, Bishop, Queen)

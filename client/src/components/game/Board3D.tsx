@@ -8,7 +8,9 @@ interface Board3DProps {
   onCellClick: (pos: Position) => void;
 }
 
-const GRID_SIZE = 4;
+const GRID_SIZE_X = 4;
+const GRID_SIZE_Y = 6;
+const GRID_SIZE_Z = 4;
 const TILE_SIZE = 2;
 const LAYER_SPACING = 4;
 
@@ -20,14 +22,14 @@ export function Board3D({ validMoves, onCellClick }: Board3DProps) {
 
   const tiles = [];
 
-  for (let y = 0; y < GRID_SIZE; y++) {
-    for (let x = 0; x < GRID_SIZE; x++) {
-      for (let z = 0; z < GRID_SIZE; z++) {
+  for (let y = 0; y < GRID_SIZE_Y; y++) {
+    for (let x = 0; x < GRID_SIZE_X; x++) {
+      for (let z = 0; z < GRID_SIZE_Z; z++) {
         const isValid = isMoveValid(x, y, z);
         
         // Position calculation to center the board
         const posX = x * TILE_SIZE - 3;
-        const posY = y * LAYER_SPACING - 6;
+        const posY = y * LAYER_SPACING - 10;
         const posZ = z * TILE_SIZE - 3;
 
         const isBlackTile = (x + z + y) % 2 === 1; // 3D checkerboard pattern
@@ -73,7 +75,7 @@ export function Board3D({ validMoves, onCellClick }: Board3DProps) {
     }
     
     // Add Layer frame/border
-    const layerY = y * LAYER_SPACING - 6;
+    const layerY = y * LAYER_SPACING - 10;
     tiles.push(
       <Line
         key={`layer-frame-${y}`}
@@ -97,8 +99,8 @@ export function Board3D({ validMoves, onCellClick }: Board3DProps) {
     <Line
       key={`post-${i}`}
       points={[
-        [px, -6, pz],
-        [px, 3 * LAYER_SPACING - 6, pz]
+        [px, -10, pz],
+        [px, (GRID_SIZE_Y - 1) * LAYER_SPACING - 10, pz]
       ]}
       color="#4444ff"
       opacity={0.1}
