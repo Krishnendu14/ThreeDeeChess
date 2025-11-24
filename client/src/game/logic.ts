@@ -1,6 +1,6 @@
 import { GameState, Piece, PieceColor, PieceType, Position } from './types';
 
-const BOARD_DIMS = { x: 4, y: 6, z: 4 };
+const BOARD_DIMS = { x: 8, y: 8, z: 2 };
 
 export const initialGameState: GameState = {
   pieces: initializePieces(),
@@ -24,42 +24,30 @@ function initializePieces(): Piece[] {
     });
   };
 
-  // White Pieces (Bottom - Level 0 & 1)
-  // Level 0: Officers
-  addPiece('rook', 'white', 0, 0, 0);
-  addPiece('knight', 'white', 1, 0, 0);
-  addPiece('knight', 'white', 2, 0, 0);
-  addPiece('rook', 'white', 3, 0, 0);
-  
-  addPiece('bishop', 'white', 0, 0, 1);
-  addPiece('queen', 'white', 1, 0, 1);
-  addPiece('king', 'white', 2, 0, 1);
-  addPiece('bishop', 'white', 3, 0, 1);
+  // Standard Chess Setup
+  // White pieces at z=0
+  const backRank = [
+    'rook', 'knight', 'bishop', 'queen', 'king', 'bishop', 'knight', 'rook'
+  ] as const;
 
-  // Level 1: Pawns (Front 2 rows of level 1)
-  for (let x = 0; x < 4; x++) {
-    for (let z = 0; z < 2; z++) {
-       addPiece('pawn', 'white', x, 1, z);
-    }
+  // White back rank (y=0)
+  for (let x = 0; x < 8; x++) {
+    addPiece(backRank[x], 'white', x, 0, 0);
   }
 
-  // Black Pieces (Top - Level 5 & 4)
-  // Level 5: Officers (Mirrored)
-  addPiece('rook', 'black', 0, 5, 3);
-  addPiece('knight', 'black', 1, 5, 3);
-  addPiece('knight', 'black', 2, 5, 3);
-  addPiece('rook', 'black', 3, 5, 3);
+  // White pawns (y=1)
+  for (let x = 0; x < 8; x++) {
+    addPiece('pawn', 'white', x, 1, 0);
+  }
 
-  addPiece('bishop', 'black', 0, 5, 2);
-  addPiece('queen', 'black', 1, 5, 2);
-  addPiece('king', 'black', 2, 5, 2);
-  addPiece('bishop', 'black', 3, 5, 2);
+  // Black pawns (y=6)
+  for (let x = 0; x < 8; x++) {
+    addPiece('pawn', 'black', x, 6, 1);
+  }
 
-  // Level 4: Pawns (Back 2 rows of level 4)
-  for (let x = 0; x < 4; x++) {
-    for (let z = 2; z < 4; z++) {
-       addPiece('pawn', 'black', x, 4, z);
-    }
+  // Black back rank (y=7)
+  for (let x = 0; x < 8; x++) {
+    addPiece(backRank[x], 'black', x, 7, 1);
   }
 
   return pieces;
