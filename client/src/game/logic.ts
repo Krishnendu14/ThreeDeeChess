@@ -25,42 +25,28 @@ function initializePieces(): Piece[] {
   };
 
   // White Pieces (Bottom - Level 0 & 1)
-  // Level 0: Officers
+  // Level 0: Officers (back row) - standard chess arrangement: Rook, Knight, Bishop, King
   addPiece('rook', 'white', 0, 0, 0);
   addPiece('knight', 'white', 1, 0, 0);
-  addPiece('knight', 'white', 2, 0, 0);
-  addPiece('rook', 'white', 3, 0, 0);
-  
-  addPiece('bishop', 'white', 0, 0, 1);
-  addPiece('queen', 'white', 1, 0, 1);
-  addPiece('king', 'white', 2, 0, 1);
-  addPiece('bishop', 'white', 3, 0, 1);
+  addPiece('bishop', 'white', 2, 0, 0);
+  addPiece('king', 'white', 3, 0, 0);
 
-  // Level 1: Pawns (Front 2 rows of level 1)
+  // Level 1: Pawns (front row)
   for (let x = 0; x < 4; x++) {
-    for (let z = 0; z < 2; z++) {
-       addPiece('pawn', 'white', x, 1, z);
-    }
+    addPiece('pawn', 'white', x, 1, 0);
   }
 
   // Black Pieces (Top - Level 5 & 4)
-  // Level 5: Officers (Mirrored)
-  addPiece('rook', 'black', 0, 5, 3);
-  addPiece('knight', 'black', 1, 5, 3);
+  // Level 4: Pawns (front row for black, so at z=3)
+  for (let x = 0; x < 4; x++) {
+    addPiece('pawn', 'black', x, 4, 3);
+  }
+
+  // Level 5: Officers (back row for black) - mirrored: King, Bishop, Knight, Rook
+  addPiece('king', 'black', 0, 5, 3);
+  addPiece('bishop', 'black', 1, 5, 3);
   addPiece('knight', 'black', 2, 5, 3);
   addPiece('rook', 'black', 3, 5, 3);
-
-  addPiece('bishop', 'black', 0, 5, 2);
-  addPiece('queen', 'black', 1, 5, 2);
-  addPiece('king', 'black', 2, 5, 2);
-  addPiece('bishop', 'black', 3, 5, 2);
-
-  // Level 4: Pawns (Back 2 rows of level 4)
-  for (let x = 0; x < 4; x++) {
-    for (let z = 2; z < 4; z++) {
-       addPiece('pawn', 'black', x, 4, z);
-    }
-  }
 
   return pieces;
 }
