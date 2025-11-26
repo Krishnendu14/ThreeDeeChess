@@ -8,10 +8,10 @@ interface Board3DProps {
   onCellClick: (pos: Position) => void;
 }
 
-const GRID_SIZE_X = 4;
+const GRID_SIZE_X = 8;
 const GRID_SIZE_Y = 6;
-const GRID_SIZE_Z = 4;
-const TILE_SIZE = 2;
+const GRID_SIZE_Z = 8;
+const TILE_SIZE = 1;
 const LAYER_SPACING = 4;
 
 export function Board3D({ validMoves, onCellClick }: Board3DProps) {
@@ -28,9 +28,9 @@ export function Board3D({ validMoves, onCellClick }: Board3DProps) {
         const isValid = isMoveValid(x, y, z);
         
         // Position calculation to center the board
-        const posX = x * TILE_SIZE - 3;
+        const posX = x * TILE_SIZE - 3.5;
         const posY = y * LAYER_SPACING - 10;
-        const posZ = z * TILE_SIZE - 3;
+        const posZ = z * TILE_SIZE - 3.5;
 
         const isBlackTile = (x + z + y) % 2 === 1; // 3D checkerboard pattern
 

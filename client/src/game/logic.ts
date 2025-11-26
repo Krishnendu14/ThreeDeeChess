@@ -1,6 +1,6 @@
 import { GameState, Piece, PieceColor, PieceType, Position } from './types';
 
-const BOARD_DIMS = { x: 4, y: 6, z: 4 };
+const BOARD_DIMS = { x: 8, y: 6, z: 8 };
 
 export const initialGameState: GameState = {
   pieces: initializePieces(),
@@ -25,28 +25,36 @@ function initializePieces(): Piece[] {
   };
 
   // White Pieces (Bottom - Level 0 & 1)
-  // Level 0: Officers (back row) - standard chess arrangement: Rook, Knight, Bishop, King
+  // Level 0: Officers (back row) - Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook
   addPiece('rook', 'white', 0, 0, 0);
   addPiece('knight', 'white', 1, 0, 0);
   addPiece('bishop', 'white', 2, 0, 0);
-  addPiece('king', 'white', 3, 0, 0);
+  addPiece('queen', 'white', 3, 0, 0);
+  addPiece('king', 'white', 4, 0, 0);
+  addPiece('bishop', 'white', 5, 0, 0);
+  addPiece('knight', 'white', 6, 0, 0);
+  addPiece('rook', 'white', 7, 0, 0);
 
-  // Level 1: Pawns (front row)
-  for (let x = 0; x < 4; x++) {
+  // Level 1: Pawns (front row - 8 pawns)
+  for (let x = 0; x < 8; x++) {
     addPiece('pawn', 'white', x, 1, 0);
   }
 
   // Black Pieces (Top - Level 5 & 4)
-  // Level 4: Pawns (front row for black, so at z=3)
-  for (let x = 0; x < 4; x++) {
-    addPiece('pawn', 'black', x, 4, 3);
+  // Level 4: Pawns (front row for black, 8 pawns)
+  for (let x = 0; x < 8; x++) {
+    addPiece('pawn', 'black', x, 4, 7);
   }
 
-  // Level 5: Officers (back row for black) - mirrored: King, Bishop, Knight, Rook
-  addPiece('king', 'black', 0, 5, 3);
-  addPiece('bishop', 'black', 1, 5, 3);
-  addPiece('knight', 'black', 2, 5, 3);
-  addPiece('rook', 'black', 3, 5, 3);
+  // Level 5: Officers (back row for black) - mirrored: Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook
+  addPiece('rook', 'black', 0, 5, 7);
+  addPiece('knight', 'black', 1, 5, 7);
+  addPiece('bishop', 'black', 2, 5, 7);
+  addPiece('king', 'black', 3, 5, 7);
+  addPiece('queen', 'black', 4, 5, 7);
+  addPiece('bishop', 'black', 5, 5, 7);
+  addPiece('knight', 'black', 6, 5, 7);
+  addPiece('rook', 'black', 7, 5, 7);
 
   return pieces;
 }
