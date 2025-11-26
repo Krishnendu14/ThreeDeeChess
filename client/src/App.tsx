@@ -17,14 +17,21 @@ function Router() {
 }
 
 function RotatingContent() {
-  const { rotationKey } = useRotation();
+  const { rotationKey, focusPlayer } = useRotation();
+  
+  const getAnimationName = () => {
+    if (focusPlayer === 'black') {
+      return 'rotate-to-black';
+    }
+    return 'rotate-to-white';
+  };
   
   return (
     <div 
       key={rotationKey}
       className="rotate-container"
       style={{
-        animation: rotationKey > 0 ? 'spin-180 0.6s ease-in-out forwards' : 'none'
+        animation: rotationKey > 0 ? `${getAnimationName()} 0.6s ease-in-out forwards` : 'none'
       }}
     >
       <Router />

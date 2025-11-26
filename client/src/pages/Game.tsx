@@ -66,8 +66,8 @@ export default function Game() {
         history: [...gameState.history, { from: selectedPiece.position, to: targetPos, pieceId: selectedPiece.id }]
       });
       
-      // Trigger 180-degree rotation after move
-      triggerRotation();
+      // Trigger rotation to focus on next player
+      triggerRotation(nextTurn);
     } else {
       // Deselect if clicking invalid empty cell
       setGameState(prev => ({
@@ -80,7 +80,7 @@ export default function Game() {
 
   const resetGame = () => {
     setGameState(initialGameState);
-    triggerRotation();
+    triggerRotation('white');
   };
 
   return (
