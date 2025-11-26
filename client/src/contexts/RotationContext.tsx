@@ -2,23 +2,20 @@ import React, { createContext, useState, useCallback } from 'react';
 
 interface RotationContextType {
   rotationKey: number;
-  focusPlayer: 'white' | 'black';
-  triggerRotation: (focusPlayer: 'white' | 'black') => void;
+  triggerRotation: () => void;
 }
 
 export const RotationContext = createContext<RotationContextType | undefined>(undefined);
 
 export function RotationProvider({ children }: { children: React.ReactNode }) {
   const [rotationKey, setRotationKey] = useState(0);
-  const [focusPlayer, setFocusPlayer] = useState<'white' | 'black'>('white');
 
-  const triggerRotation = useCallback((focusPlayer: 'white' | 'black') => {
-    setFocusPlayer(focusPlayer);
+  const triggerRotation = useCallback(() => {
     setRotationKey(prev => prev + 1);
   }, []);
 
   return (
-    <RotationContext.Provider value={{ rotationKey, focusPlayer, triggerRotation }}>
+    <RotationContext.Provider value={{ rotationKey, triggerRotation }}>
       {children}
     </RotationContext.Provider>
   );

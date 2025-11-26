@@ -74,8 +74,8 @@
   box-shadow: 0 0 15px hsl(190 100% 50% / 0.2), inset 0 0 10px hsl(190 100% 50% / 0.1);
 }
 
-/* Rotation to focus on Black */
-@keyframes rotate-to-black {
+/* 180 Degree Rotation Animation */
+@keyframes spin-180 {
   from {
     transform: rotateY(0deg) rotateX(0deg);
     opacity: 1;
@@ -85,21 +85,6 @@
   }
   to {
     transform: rotateY(180deg) rotateX(0deg);
-    opacity: 1;
-  }
-}
-
-/* Rotation to focus on White */
-@keyframes rotate-to-white {
-  from {
-    transform: rotateY(180deg) rotateX(0deg);
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-  to {
-    transform: rotateY(360deg) rotateX(0deg);
     opacity: 1;
   }
 }
