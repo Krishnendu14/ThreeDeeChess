@@ -28,9 +28,9 @@ export function Piece3D({ piece, isSelected, onClick }: Piece3DProps) {
     if (!meshRef.current) return;
     
     const targetPos = new Vector3(
-      piece.position.x * 1 - 3.5, // Scale 1, Offset center
-      piece.position.y * 2 - 5, // Vertical spacing 2
-      piece.position.z * 1 - 3.5
+      piece.position.x * 1.2 - 4.8, // Scale 1.2, Offset center
+      piece.position.y * 2 - 3, // Vertical spacing 2
+      piece.position.z * 1.2 - 4.8
     );
     
     // Smooth lerp
@@ -65,7 +65,7 @@ export function Piece3D({ piece, isSelected, onClick }: Piece3DProps) {
         e.stopPropagation();
         onClick(e);
       }}
-      position={[piece.position.x * 1 - 3.5, piece.position.y * 2 - 5, piece.position.z * 1 - 3.5]}
+      position={[piece.position.x * 1.2 - 4.8, piece.position.y * 2 - 3, piece.position.z * 1.2 - 4.8]}
     >
       {Geometry}
       <meshStandardMaterial

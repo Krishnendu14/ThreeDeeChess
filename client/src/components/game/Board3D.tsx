@@ -9,9 +9,9 @@ interface Board3DProps {
 }
 
 const GRID_SIZE_X = 8;
-const GRID_SIZE_Y = 6;
+const GRID_SIZE_Y = 4;
 const GRID_SIZE_Z = 8;
-const TILE_SIZE = 1;
+const TILE_SIZE = 1.2;
 const LAYER_SPACING = 2;
 
 export function Board3D({ validMoves, onCellClick }: Board3DProps) {
@@ -28,9 +28,9 @@ export function Board3D({ validMoves, onCellClick }: Board3DProps) {
         const isValid = isMoveValid(x, y, z);
         
         // Position calculation to center the board
-        const posX = x * TILE_SIZE - 3.5;
-        const posY = y * LAYER_SPACING - 5;
-        const posZ = z * TILE_SIZE - 3.5;
+        const posX = x * TILE_SIZE - 4.8;
+        const posY = y * LAYER_SPACING - 3;
+        const posZ = z * TILE_SIZE - 4.8;
 
         const isBlackTile = (x + z + y) % 2 === 1; // 3D checkerboard pattern
 
@@ -75,14 +75,14 @@ export function Board3D({ validMoves, onCellClick }: Board3DProps) {
     }
     
     // Add Layer frame/border
-    const layerY = y * LAYER_SPACING - 5;
+    const layerY = y * LAYER_SPACING - 3;
     tiles.push(
       <Line
         key={`layer-frame-${y}`}
         points={[
-          [-4, layerY, -4], [4, layerY, -4],
-          [4, layerY, 4], [-4, layerY, 4],
-          [-4, layerY, -4]
+          [-5, layerY, -5], [5, layerY, -5],
+          [5, layerY, 5], [-5, layerY, 5],
+          [-5, layerY, -5]
         ]}
         color="#4444ff"
         opacity={0.2}
@@ -94,13 +94,13 @@ export function Board3D({ validMoves, onCellClick }: Board3DProps) {
 
   // Vertical Connectors (Corner posts to visualize the stack)
   const posts = [
-    [-4, -4], [4, -4], [4, 4], [-4, 4]
+    [-5, -5], [5, -5], [5, 5], [-5, 5]
   ].map(([px, pz], i) => (
     <Line
       key={`post-${i}`}
       points={[
-        [px, -5, pz],
-        [px, (GRID_SIZE_Y - 1) * LAYER_SPACING - 5, pz]
+        [px, -3, pz],
+        [px, (GRID_SIZE_Y - 1) * LAYER_SPACING - 3, pz]
       ]}
       color="#4444ff"
       opacity={0.1}
