@@ -13,6 +13,9 @@ interface GameSceneProps {
 }
 
 export function GameScene({ gameState, onPieceClick, onCellClick }: GameSceneProps) {
+  // Rotate board 180 degrees when it's black's turn
+  const rotation = gameState.currentTurn === 'black' ? Math.PI : 0;
+  
   return (
     <Canvas className="w-full h-full bg-black">
       <PerspectiveCamera makeDefault position={[12, 8, 12]} fov={50} />
@@ -30,7 +33,7 @@ export function GameScene({ gameState, onPieceClick, onCellClick }: GameScenePro
       
       <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
       
-      <group>
+      <group rotation={[0, rotation, 0]}>
         <Board3D 
           validMoves={gameState.validMoves} 
           onCellClick={onCellClick}
