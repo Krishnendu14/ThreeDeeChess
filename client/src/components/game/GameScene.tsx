@@ -10,6 +10,7 @@ interface GameSceneProps {
   gameState: GameState;
   onPieceClick: (id: string) => void;
   onCellClick: (pos: Position) => void;
+  selectedPieceId?: string | null;
 }
 
 export function GameScene({ gameState, onPieceClick, onCellClick }: GameSceneProps) {
@@ -36,6 +37,9 @@ export function GameScene({ gameState, onPieceClick, onCellClick }: GameScenePro
       <group rotation={[0, rotation, 0]}>
         <Board3D 
           validMoves={gameState.validMoves} 
+          pieces={gameState.pieces}
+          currentTurn={gameState.currentTurn}
+          selectedPieceId={gameState.selectedPieceId}
           onCellClick={onCellClick}
         />
         

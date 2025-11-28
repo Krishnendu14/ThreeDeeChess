@@ -1,10 +1,13 @@
 import { useRef } from 'react';
-import { Position } from '../../game/types';
+import { Position, Piece, PieceColor } from '../../game/types';
 import { Line, Edges, Text } from '@react-three/drei';
 import { DoubleSide } from 'three';
 
 interface Board3DProps {
   validMoves: Position[];
+  pieces: Piece[];
+  currentTurn: PieceColor;
+  selectedPieceId: string | null;
   onCellClick: (pos: Position) => void;
 }
 
@@ -14,10 +17,20 @@ const GRID_SIZE_Z = 8;
 const TILE_SIZE = 1.2;
 const LAYER_SPACING = 2;
 
-export function Board3D({ validMoves, onCellClick }: Board3DProps) {
+export function Board3D({ validMoves, pieces, currentTurn, selectedPieceId, onCellClick }: Board3DProps) {
   
   const isMoveValid = (x: number, y: number, z: number) => {
     return validMoves.some(m => m.x === x && m.y === y && m.z === z);
+  };
+
+  const isCapture = (x: number, y: number, z: number) => {
+    // Check if there's an enemy piece at this position
+    return pieces.some(p => 
+      p.position.x === x && 
+      p.position.y === y && 
+      p.position.z === z && 
+      p.color !== currentTurn
+    );
   };
 
   const tiles = [];
@@ -38,6 +51,10 @@ export function Board3D({ validMoves, onCellClick }: Board3DProps) {
         const yLabel = String.fromCharCode(97 + y);
         const zLabel = String.fromCharCode(65 + z);
         const coordLabel = `${xLabel}${yLabel}${zLabel}`;
+        
+        const isCapturingMove = isValid && isCapture(x, y, z);
+        const moveColor = isCapturingMove ? '#ff0000' : '#00ff00';
+        const edgeColor = isCapturingMove ? '#ff6666' : '#00ccff';
 
         tiles.push(
           <group key={`${x}-${y}-${z}`} position={[posX, posY, posZ]}>
@@ -51,23 +68,23 @@ export function Board3D({ validMoves, onCellClick }: Board3DProps) {
             >
               <planeGeometry args={[TILE_SIZE * 0.95, TILE_SIZE * 0.95]} />
               <meshPhysicalMaterial 
-                color={isValid ? '#00ff00' : (isBlackTile ? '#1a1a2e' : '#16213e')}
+                color={isValid ? moveColor : (isBlackTile ? '#1a1a2e' : '#16213e')}
                 transparent
                 opacity={isValid ? 0.4 : 0.1}
                 side={DoubleSide}
                 metalness={0.5}
                 roughness={0.1}
-                emissive={isValid ? '#00ff00' : '#000000'}
+                emissive={isValid ? moveColor : '#000000'}
                 emissiveIntensity={isValid ? 0.5 : 0}
               />
-              <Edges scale={1.01} threshold={15} color="#00ccff" linewidth={1.5} />
+              <Edges scale={1.01} threshold={15} color={edgeColor} linewidth={1.5} />
             </mesh>
 
             {/* Selection Highlight Ring */}
             {isValid && (
               <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.05, 0]}>
                 <ringGeometry args={[0.5, 0.6, 32]} />
-                <meshBasicMaterial color="#00ff00" toneMapped={false} />
+                <meshBasicMaterial color={moveColor} toneMapped={false} />
               </mesh>
             )}
             
