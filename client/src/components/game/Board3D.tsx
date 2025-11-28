@@ -9,7 +9,7 @@ interface Board3DProps {
 }
 
 const GRID_SIZE_X = 8;
-const GRID_SIZE_Y = 5;
+const GRID_SIZE_Y = 4;
 const GRID_SIZE_Z = 8;
 const TILE_SIZE = 1.2;
 const LAYER_SPACING = 2;
@@ -29,7 +29,7 @@ export function Board3D({ validMoves, onCellClick }: Board3DProps) {
         
         // Position calculation to center the board
         const posX = x * TILE_SIZE - 4.8;
-        const posY = y * LAYER_SPACING - 4;
+        const posY = y * LAYER_SPACING - 3;
         const posZ = z * TILE_SIZE - 4.8;
 
         const isBlackTile = (x + z + y) % 2 === 1; // 3D checkerboard pattern
@@ -75,7 +75,7 @@ export function Board3D({ validMoves, onCellClick }: Board3DProps) {
     }
     
     // Add Layer frame/border
-    const layerY = y * LAYER_SPACING - 4;
+    const layerY = y * LAYER_SPACING - 3;
     tiles.push(
       <Line
         key={`layer-frame-${y}`}
@@ -99,8 +99,8 @@ export function Board3D({ validMoves, onCellClick }: Board3DProps) {
     <Line
       key={`post-${i}`}
       points={[
-        [px, -4, pz],
-        [px, (GRID_SIZE_Y - 1) * LAYER_SPACING - 4, pz]
+        [px, -3, pz],
+        [px, (GRID_SIZE_Y - 1) * LAYER_SPACING - 3, pz]
       ]}
       color="#4444ff"
       opacity={0.1}
