@@ -9,10 +9,10 @@ interface Board3DProps {
 }
 
 const GRID_SIZE_X = 8;
-const GRID_SIZE_Y = 4;
+const GRID_SIZE_Y = 7;
 const GRID_SIZE_Z = 8;
 const TILE_SIZE = 1.2;
-const LAYER_SPACING = 2;
+const LAYER_SPACING = 1;
 
 export function Board3D({ validMoves, onCellClick }: Board3DProps) {
   
