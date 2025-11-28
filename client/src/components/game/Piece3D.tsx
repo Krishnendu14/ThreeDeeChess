@@ -29,7 +29,7 @@ export function Piece3D({ piece, isSelected, onClick }: Piece3DProps) {
     
     const targetPos = new Vector3(
       piece.position.x * 1.2 - 4.8, // Scale 1.2, Offset center
-      piece.position.y * 1 - 3, // Vertical spacing 1
+      piece.position.y * 2 - 3, // Vertical spacing 2
       piece.position.z * 1.2 - 4.8
     );
     
@@ -65,7 +65,7 @@ export function Piece3D({ piece, isSelected, onClick }: Piece3DProps) {
         e.stopPropagation();
         onClick(e);
       }}
-      position={[piece.position.x * 1.2 - 4.8, piece.position.y * 1 - 3, piece.position.z * 1.2 - 4.8]}
+      position={[piece.position.x * 1.2 - 4.8, piece.position.y * 2 - 3, piece.position.z * 1.2 - 4.8]}
     >
       {Geometry}
       <meshStandardMaterial
