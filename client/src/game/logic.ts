@@ -24,7 +24,7 @@ function initializePieces(): Piece[] {
     });
   };
 
-  // White Pieces (Bottom - Levels 0 & 1)
+  // White Pieces (Bottom - Level 0 & 1)
   // Level 0: Officers (back row) - Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook
   addPiece('rook', 'white', 0, 0, 0);
   addPiece('knight', 'white', 1, 0, 0);
@@ -35,15 +35,15 @@ function initializePieces(): Piece[] {
   addPiece('knight', 'white', 6, 0, 0);
   addPiece('rook', 'white', 7, 0, 0);
 
-  // Level 1: Pawns in front (z=1)
+  // Level 1: Pawns (front row - 8 pawns)
   for (let x = 0; x < 8; x++) {
-    addPiece('pawn', 'white', x, 1, 1);
+    addPiece('pawn', 'white', x, 1, 0);
   }
 
-  // Black Pieces (Top - Levels 3 & 2)
-  // Level 2: Pawns in front (z=6)
+  // Black Pieces (Top - Level 3 & 2)
+  // Level 2: Pawns (front row for black, 8 pawns)
   for (let x = 0; x < 8; x++) {
-    addPiece('pawn', 'black', x, 2, 6);
+    addPiece('pawn', 'black', x, 2, 7);
   }
 
   // Level 3: Officers (back row for black) - mirrored: Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook
