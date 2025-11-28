@@ -34,6 +34,11 @@ export function Board3D({ validMoves, onCellClick }: Board3DProps) {
 
         const isBlackTile = (x + z + y) % 2 === 1; // 3D checkerboard pattern
 
+        const xLabel = (x + 1).toString();
+        const yLabel = String.fromCharCode(97 + y);
+        const zLabel = String.fromCharCode(65 + z);
+        const coordLabel = `${xLabel}${yLabel}${zLabel}`;
+
         tiles.push(
           <group key={`${x}-${y}-${z}`} position={[posX, posY, posZ]}>
             {/* The Glass Tile */}
@@ -55,6 +60,7 @@ export function Board3D({ validMoves, onCellClick }: Board3DProps) {
                 emissive={isValid ? '#00ff00' : '#000000'}
                 emissiveIntensity={isValid ? 0.5 : 0}
               />
+              <Edges scale={1.01} threshold={15} color="#00ccff" linewidth={1.5} />
             </mesh>
 
             {/* Selection Highlight Ring */}
@@ -65,10 +71,18 @@ export function Board3D({ validMoves, onCellClick }: Board3DProps) {
               </mesh>
             )}
             
-            {/* Grid Coordinates for Debug/Clarity (Optional, maybe minimal) */}
-            {/* <Text position={[-0.8, 0, -0.8]} fontSize={0.3} color="white" fillOpacity={0.2} rotation={[-Math.PI/2, 0, 0]}>
-              {x},{y},{z}
-            </Text> */}
+            {/* Coordinate Label */}
+            <Text 
+              position={[0, 0.15, 0]} 
+              fontSize={0.25} 
+              color="#00ccff" 
+              fillOpacity={0.8}
+              rotation={[-Math.PI / 2, 0, 0]}
+              anchorX="center"
+              anchorY="middle"
+            >
+              {coordLabel}
+            </Text>
           </group>
         );
       }
