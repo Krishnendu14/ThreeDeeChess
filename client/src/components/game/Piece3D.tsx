@@ -81,7 +81,7 @@ export function Piece3D({ piece, isSelected, onClick }: Piece3DProps) {
       />
       {/* Label for clarity */}
       <Html position={[0, 1.5, 0]} center distanceFactor={10} style={{ pointerEvents: 'none' }}>
-        <div className={`text-[10px] font-bold tracking-widest uppercase ${piece.color === 'white' ? 'text-cyan-400' : 'text-pink-500'} opacity-50`}>
+        <div className={`text-[10px] font-bold tracking-widest uppercase ${piece.color === 'white' || piece.color === 'cyan' ? 'text-cyan-400' : 'text-pink-500'} opacity-50`}>
           {piece.type}
         </div>
       </Html>
