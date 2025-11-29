@@ -56,6 +56,16 @@ function initializePieces(): Piece[] {
   addPiece('knight', 'black', 6, 3, 7);
   addPiece('rook', 'black', 7, 3, 7);
 
+  // Cyan Pawns (Level 0, z=1) - from 1aB to 8aB
+  for (let x = 0; x < 8; x++) {
+    addPiece('pawn', 'cyan', x, 0, 1);
+  }
+
+  // Magenta Pawns (Level 3, z=6) - from 1dG to 8dG
+  for (let x = 0; x < 8; x++) {
+    addPiece('pawn', 'magenta', x, 3, 6);
+  }
+
   return pieces;
 }
 

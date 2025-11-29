@@ -53,7 +53,7 @@ export function Board3D({ validMoves, pieces, currentTurn, selectedPieceId, onCe
         const coordLabel = `${xLabel}${yLabel}${zLabel}`;
         
         const isCapturingMove = isValid && isCapture(x, y, z);
-        const moveColor = isCapturingMove ? '#ff0000' : '#00ff00';
+        const moveColor = isCapturingMove ? '#ffff00' : '#00ff00';
         const edgeColor = isCapturingMove ? '#ff6666' : '#00ccff';
 
         tiles.push(

@@ -13,11 +13,15 @@ interface Piece3DProps {
 const PIECE_COLORS = {
   white: '#00f0ff', // Cyan
   black: '#ff00aa', // Magenta
+  cyan: '#00f0ff', // Cyan
+  magenta: '#ff00aa', // Magenta
 };
 
 const PIECE_EMISSIVE = {
   white: '#00a0aa',
   black: '#aa0077',
+  cyan: '#00a0aa',
+  magenta: '#aa0077',
 };
 
 export function Piece3D({ piece, isSelected, onClick }: Piece3DProps) {
