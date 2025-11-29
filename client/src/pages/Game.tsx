@@ -108,9 +108,6 @@ export default function Game() {
           <h1 className="text-4xl font-bold font-display tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]">
             QUANTUM CHESS 3D
           </h1>
-          <p className="text-cyan-200/60 text-sm mt-1 tracking-wider font-mono uppercase">
-            Tactical Command Interface // v4.0.4
-          </p>
         </div>
 
         <Card className="pointer-events-auto bg-black/40 backdrop-blur-md border-cyan-900/50 p-4 min-w-[200px] box-glow-primary">

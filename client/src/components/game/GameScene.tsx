@@ -45,7 +45,9 @@ export function GameScene({ gameState, onPieceClick, onCellClick, selectedLayer 
           onCellClick={onCellClick}
         />
         
-        {gameState.pieces.map(piece => (
+        {gameState.pieces
+          .filter(piece => selectedLayer === null || piece.position.y === selectedLayer)
+          .map(piece => (
           <Piece3D 
             key={piece.id} 
             piece={piece} 
