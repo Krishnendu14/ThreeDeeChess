@@ -11,9 +11,10 @@ interface GameSceneProps {
   onPieceClick: (id: string) => void;
   onCellClick: (pos: Position) => void;
   selectedPieceId?: string | null;
+  selectedLayer?: number | null;
 }
 
-export function GameScene({ gameState, onPieceClick, onCellClick }: GameSceneProps) {
+export function GameScene({ gameState, onPieceClick, onCellClick, selectedLayer }: GameSceneProps) {
   // Rotate board 180 degrees when it's black's turn
   const rotation = gameState.currentTurn === 'black' ? Math.PI : 0;
   
@@ -40,6 +41,7 @@ export function GameScene({ gameState, onPieceClick, onCellClick }: GameScenePro
           pieces={gameState.pieces}
           currentTurn={gameState.currentTurn}
           selectedPieceId={gameState.selectedPieceId}
+          selectedLayer={selectedLayer}
           onCellClick={onCellClick}
         />
         

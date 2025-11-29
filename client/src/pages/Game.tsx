@@ -9,6 +9,7 @@ import generatedBackground from '@assets/generated_images/sci-fi_holographic_neb
 
 export default function Game() {
   const [gameState, setGameState] = useState<GameState>(initialGameState);
+  const [selectedLayer, setSelectedLayer] = useState<number | null>(null); // null = all layers, 0-3 = specific layers
   
   const handlePieceClick = (id: string) => {
     const piece = gameState.pieces.find(p => p.id === id);
@@ -97,6 +98,7 @@ export default function Game() {
           gameState={gameState} 
           onPieceClick={handlePieceClick}
           onCellClick={handleCellClick}
+          selectedLayer={selectedLayer}
         />
       </div>
 
@@ -126,6 +128,36 @@ export default function Game() {
             </div>
           </div>
         </Card>
+      </div>
+
+      {/* Layer Filter Buttons */}
+      <div className="absolute left-8 top-1/2 -translate-y-1/2 z-20 pointer-events-auto flex flex-col gap-2">
+        <div className="text-xs text-cyan-500 uppercase tracking-widest font-bold mb-2">Layer View</div>
+        <Button
+          onClick={() => setSelectedLayer(null)}
+          variant={selectedLayer === null ? "default" : "outline"}
+          className={`uppercase tracking-widest font-mono text-xs h-10 px-4 backdrop-blur-sm transition-all duration-300 ${
+            selectedLayer === null 
+              ? 'bg-cyan-600 border-cyan-400 text-black' 
+              : 'bg-black/60 border-cyan-500/30 text-cyan-400 hover:bg-cyan-950/50'
+          }`}
+        >
+          All
+        </Button>
+        {['a', 'b', 'c', 'd'].map((layer, idx) => (
+          <Button
+            key={layer}
+            onClick={() => setSelectedLayer(idx)}
+            variant={selectedLayer === idx ? "default" : "outline"}
+            className={`uppercase tracking-widest font-mono text-xs h-10 px-4 backdrop-blur-sm transition-all duration-300 ${
+              selectedLayer === idx 
+                ? 'bg-cyan-600 border-cyan-400 text-black' 
+                : 'bg-black/60 border-cyan-500/30 text-cyan-400 hover:bg-cyan-950/50'
+            }`}
+          >
+            {layer.toUpperCase()}
+          </Button>
+        ))}
       </div>
 
       {/* Controls */}

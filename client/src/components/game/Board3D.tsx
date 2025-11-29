@@ -8,6 +8,7 @@ interface Board3DProps {
   pieces: Piece[];
   currentTurn: PieceColor;
   selectedPieceId: string | null;
+  selectedLayer?: number | null;
   onCellClick: (pos: Position) => void;
 }
 
@@ -17,7 +18,7 @@ const GRID_SIZE_Z = 8;
 const TILE_SIZE = 1.2;
 const LAYER_SPACING = 2;
 
-export function Board3D({ validMoves, pieces, currentTurn, selectedPieceId, onCellClick }: Board3DProps) {
+export function Board3D({ validMoves, pieces, currentTurn, selectedPieceId, selectedLayer, onCellClick }: Board3DProps) {
   
   const isMoveValid = (x: number, y: number, z: number) => {
     return validMoves.some(m => m.x === x && m.y === y && m.z === z);
@@ -36,6 +37,9 @@ export function Board3D({ validMoves, pieces, currentTurn, selectedPieceId, onCe
   const tiles = [];
 
   for (let y = 0; y < GRID_SIZE_Y; y++) {
+    // Skip this layer if selectedLayer is set and doesn't match
+    if (selectedLayer !== null && selectedLayer !== y) continue;
+    
     for (let x = 0; x < GRID_SIZE_X; x++) {
       for (let z = 0; z < GRID_SIZE_Z; z++) {
         const isValid = isMoveValid(x, y, z);
