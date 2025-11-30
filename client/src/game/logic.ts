@@ -87,17 +87,10 @@ export function isValidMove(gameState: GameState, from: Position, to: Position):
   // Simplified Movement Logic for 3D
   switch (piece.type) {
     case 'pawn': {
-      // Only move "forward" in Y (layers) or Z (across board)? 
-      // Let's define "forward" as towards the opponent's starting layer (Y axis mainly)
-      // White moves Y+, Black moves Y-
-      const direction = piece.color === 'white' ? 1 : -1;
+      // All pawns move towards the center (Y increases for white/cyan, Y decreases for black/magenta)
+      const direction = (piece.color === 'white' || piece.color === 'cyan') ? 1 : -1;
       
-      // Simple move: 1 step vertical (Y) or 1 step forward (Z) depending on strategy?
-      // Let's make pawns move primarily in Y (vertical/layer) direction for this 3D variant
-      // Or towards the opponent in Z if on same layer? 
-      // Let's stick to a simpler rule: Pawns move towards opposite Y end.
-      
-      // Move 1 step
+      // Move 1 step in Y direction only
       if (dx === 0 && dz === 0 && (to.y - from.y === direction)) {
         return !destPiece; // Cannot capture forward
       }
