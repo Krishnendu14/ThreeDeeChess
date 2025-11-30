@@ -4,7 +4,7 @@ const BOARD_DIMS = { x: 8, y: 4, z: 8 };
 
 export const initialGameState: GameState = {
   pieces: initializePieces(),
-  currentTurn: 'cyan',
+  currentTurn: 'white',
   selectedPieceId: null,
   validMoves: [],
   winner: null,
@@ -24,37 +24,47 @@ function initializePieces(): Piece[] {
     });
   };
 
-  // Cyan Pieces (Bottom - Level 0 & 1)
+  // White Pieces (Bottom - Level 0 & 1)
   // Level 0: Officers (back row) - Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook
-  addPiece('rook', 'cyan', 0, 0, 0);
-  addPiece('knight', 'cyan', 1, 0, 0);
-  addPiece('bishop', 'cyan', 2, 0, 0);
-  addPiece('queen', 'cyan', 3, 0, 0);
-  addPiece('king', 'cyan', 4, 0, 0);
-  addPiece('bishop', 'cyan', 5, 0, 0);
-  addPiece('knight', 'cyan', 6, 0, 0);
-  addPiece('rook', 'cyan', 7, 0, 0);
+  addPiece('rook', 'white', 0, 0, 0);
+  addPiece('knight', 'white', 1, 0, 0);
+  addPiece('bishop', 'white', 2, 0, 0);
+  addPiece('queen', 'white', 3, 0, 0);
+  addPiece('king', 'white', 4, 0, 0);
+  addPiece('bishop', 'white', 5, 0, 0);
+  addPiece('knight', 'white', 6, 0, 0);
+  addPiece('rook', 'white', 7, 0, 0);
 
   // Level 1: Pawns (front row - 8 pawns)
   for (let x = 0; x < 8; x++) {
-    addPiece('pawn', 'cyan', x, 1, 0);
+    addPiece('pawn', 'white', x, 1, 0);
   }
 
-  // Magenta Pieces (Top - Level 3 & 2)
-  // Level 2: Pawns (front row for magenta, 8 pawns)
+  // Black Pieces (Top - Level 3 & 2)
+  // Level 2: Pawns (front row for black, 8 pawns)
   for (let x = 0; x < 8; x++) {
-    addPiece('pawn', 'magenta', x, 2, 7);
+    addPiece('pawn', 'black', x, 2, 7);
   }
 
-  // Level 3: Officers (back row for magenta) - mirrored: Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook
-  addPiece('rook', 'magenta', 0, 3, 7);
-  addPiece('knight', 'magenta', 1, 3, 7);
-  addPiece('bishop', 'magenta', 2, 3, 7);
-  addPiece('king', 'magenta', 3, 3, 7);
-  addPiece('queen', 'magenta', 4, 3, 7);
-  addPiece('bishop', 'magenta', 5, 3, 7);
-  addPiece('knight', 'magenta', 6, 3, 7);
-  addPiece('rook', 'magenta', 7, 3, 7);
+  // Level 3: Officers (back row for black) - mirrored: Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook
+  addPiece('rook', 'black', 0, 3, 7);
+  addPiece('knight', 'black', 1, 3, 7);
+  addPiece('bishop', 'black', 2, 3, 7);
+  addPiece('king', 'black', 3, 3, 7);
+  addPiece('queen', 'black', 4, 3, 7);
+  addPiece('bishop', 'black', 5, 3, 7);
+  addPiece('knight', 'black', 6, 3, 7);
+  addPiece('rook', 'black', 7, 3, 7);
+
+  // Cyan Pawns (Level 0, z=1) - from 1aB to 8aB
+  for (let x = 0; x < 8; x++) {
+    addPiece('pawn', 'cyan', x, 0, 1);
+  }
+
+  // Magenta Pawns (Level 3, z=6) - from 1dG to 8dG
+  for (let x = 0; x < 8; x++) {
+    addPiece('pawn', 'magenta', x, 3, 6);
+  }
 
   return pieces;
 }
@@ -79,8 +89,8 @@ export function isValidMove(gameState: GameState, from: Position, to: Position):
     case 'pawn': {
       // Only move "forward" in Y (layers) or Z (across board)? 
       // Let's define "forward" as towards the opponent's starting layer (Y axis mainly)
-      // Cyan moves Y+, Magenta moves Y-
-      const direction = piece.color === 'cyan' ? 1 : -1;
+      // White moves Y+, Black moves Y-
+      const direction = piece.color === 'white' ? 1 : -1;
       
       // Simple move: 1 step vertical (Y) or 1 step forward (Z) depending on strategy?
       // Let's make pawns move primarily in Y (vertical/layer) direction for this 3D variant
