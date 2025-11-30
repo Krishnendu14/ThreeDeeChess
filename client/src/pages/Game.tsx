@@ -54,7 +54,7 @@ export default function Game() {
           return p;
         });
       
-      const turns: ('cyan' | 'magenta')[] = ['cyan', 'magenta'];
+      const turns: ('white' | 'black' | 'cyan' | 'magenta')[] = ['white', 'black', 'cyan', 'magenta'];
       const currentIndex = turns.indexOf(gameState.currentTurn as any);
       const nextTurn = turns[(currentIndex + 1) % turns.length];
       
