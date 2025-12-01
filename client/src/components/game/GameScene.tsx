@@ -15,8 +15,8 @@ interface GameSceneProps {
 }
 
 export function GameScene({ gameState, onPieceClick, onCellClick, selectedLayer }: GameSceneProps) {
-  // Rotate board 180 degrees when it's black's turn
-  const rotation = gameState.currentTurn === 'black' ? Math.PI : 0;
+  // Rotate board 180 degrees when it's magenta's turn
+  const rotation = gameState.currentTurn === 'magenta' ? Math.PI : 0;
   
   return (
     <Canvas className="w-full h-full bg-black">

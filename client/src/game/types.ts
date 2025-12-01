@@ -1,5 +1,5 @@
 export type Position = { x: number; y: number; z: number };
-export type PieceColor = 'white' | 'black' | 'magenta' | 'cyan';
+export type PieceColor = 'cyan' | 'magenta';
 export type PieceType = 'pawn' | 'rook' | 'knight' | 'bishop' | 'queen' | 'king';
 
 export interface Piece {

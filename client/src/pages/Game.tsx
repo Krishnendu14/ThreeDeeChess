@@ -54,9 +54,7 @@ export default function Game() {
           return p;
         });
       
-      const turns: ('white' | 'black' | 'cyan' | 'magenta')[] = ['white', 'black', 'cyan', 'magenta'];
-      const currentIndex = turns.indexOf(gameState.currentTurn as any);
-      const nextTurn = turns[(currentIndex + 1) % turns.length];
+      const nextTurn = gameState.currentTurn === 'cyan' ? 'magenta' : 'cyan';
       
       setGameState({
         pieces: newPieces,
@@ -113,7 +111,7 @@ export default function Game() {
         <Card className="pointer-events-auto bg-black/40 backdrop-blur-md border-cyan-900/50 p-4 min-w-[200px] box-glow-primary">
           <div className="flex flex-col gap-2">
             <div className="text-xs text-cyan-500 uppercase tracking-widest font-bold">Current Turn</div>
-            <div className={`text-2xl font-display uppercase tracking-wider ${gameState.currentTurn === 'white' ? 'text-cyan-400 text-glow-primary' : 'text-pink-500 text-glow-secondary'}`}>
+            <div className={`text-2xl font-display uppercase tracking-wider ${gameState.currentTurn === 'cyan' ? 'text-cyan-400 text-glow-primary' : 'text-pink-500 text-glow-secondary'}`}>
               {gameState.currentTurn}
             </div>
             
