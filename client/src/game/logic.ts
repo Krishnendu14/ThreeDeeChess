@@ -87,19 +87,41 @@ export function isValidMove(gameState: GameState, from: Position, to: Position):
   // Simplified Movement Logic for 3D
   switch (piece.type) {
     case 'pawn': {
-      // Pawns move along capital letter blocks (Z axis)
-      // Cyan moves Z+ (towards z=7), Magenta moves Z- (towards z=0)
-      const direction = piece.color === 'cyan' ? 1 : -1;
+      // Pawns move along both capital letter blocks (Z axis) and small letter blocks (Y axis)
+      // Cyan moves Z+ (towards z=7) or Y+ (towards y=3), Magenta moves Z- (towards z=0) or Y- (towards y=0)
+      const zDirection = piece.color === 'cyan' ? 1 : -1;
+      const yDirection = piece.color === 'cyan' ? 1 : -1;
       
-      // Move 1 step forward along Z axis
-      if (dx === 0 && dy === 0 && (to.z - from.z === direction)) {
+      // Move 1 step along Z axis (capital letters)
+      if (dx === 0 && dy === 0 && (to.z - from.z === zDirection)) {
         return !destPiece; // Cannot capture forward
       }
-      // Capture (Diagonal in Z-X or Z-Y plane)
-      if ((dx === 1 || dy === 1) && (to.z - from.z === direction)) {
-        // Must be diagonal 1 step
-        if (dx + dy + Math.abs(to.z - from.z) === 2) { // 1 step Z + 1 step X/Y
-             return !!destPiece; // Must capture
+      // Move 1 step along Y axis (small letters)
+      if (dx === 0 && dz === 0 && (to.y - from.y === yDirection)) {
+        return !destPiece; // Cannot capture forward
+      }
+      // Capture diagonally in Z-X plane
+      if ((dx === 1) && dy === 0 && (to.z - from.z === zDirection)) {
+        if (Math.abs(to.z - from.z) === 1 && dx === 1) {
+          return !!destPiece; // Must capture
+        }
+      }
+      // Capture diagonally in Y-X plane
+      if ((dx === 1) && dz === 0 && (to.y - from.y === yDirection)) {
+        if (Math.abs(to.y - from.y) === 1 && dx === 1) {
+          return !!destPiece; // Must capture
+        }
+      }
+      // Capture diagonally in Z-Y plane (less common but allowed)
+      if (dx === 0 && (dy === 1) && (to.z - from.z === zDirection)) {
+        if (Math.abs(to.z - from.z) === 1 && dy === 1) {
+          return !!destPiece; // Must capture
+        }
+      }
+      // Capture diagonally in Y-Z plane
+      if (dx === 0 && (dy === 1) && (to.z - from.z === zDirection)) {
+        if (Math.abs(to.z - from.z) === 1 && dy === 1) {
+          return !!destPiece; // Must capture
         }
       }
       return false;
