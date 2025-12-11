@@ -1,8 +1,20 @@
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Mesh, Vector3 } from 'three';
+import { Mesh, Vector3, TextureLoader } from 'three';
 import { Piece, PieceColor, PieceType, Position } from '../../game/types';
 import { Html } from '@react-three/drei';
+import cyanPawn from '@assets/generated_images/cyan_glowing_chess_pawn.png';
+import cyanRook from '@assets/generated_images/cyan_glowing_chess_rook.png';
+import cyanKnight from '@assets/generated_images/cyan_glowing_chess_knight.png';
+import cyanBishop from '@assets/generated_images/cyan_glowing_chess_bishop.png';
+import cyanQueen from '@assets/generated_images/cyan_glowing_chess_queen.png';
+import cyanKing from '@assets/generated_images/cyan_glowing_chess_king.png';
+import magentaPawn from '@assets/generated_images/magenta_glowing_chess_pawn.png';
+import magentaRook from '@assets/generated_images/magenta_glowing_chess_rook.png';
+import magentaKnight from '@assets/generated_images/magenta_glowing_chess_knight.png';
+import magentaBishop from '@assets/generated_images/magenta_glowing_chess_bishop.png';
+import magentaQueen from '@assets/generated_images/magenta_glowing_chess_queen.png';
+import magentaKing from '@assets/generated_images/magenta_glowing_chess_king.png';
 
 interface Piece3DProps {
   piece: Piece;
@@ -10,14 +22,23 @@ interface Piece3DProps {
   onClick: (e: any) => void;
 }
 
-const PIECE_COLORS = {
-  cyan: '#00f0ff', // Cyan
-  magenta: '#ff00aa', // Magenta
-};
-
-const PIECE_EMISSIVE = {
-  cyan: '#00a0aa',
-  magenta: '#aa0077',
+const PIECE_IMAGES: Record<PieceColor, Record<PieceType, string>> = {
+  cyan: {
+    pawn: cyanPawn,
+    rook: cyanRook,
+    knight: cyanKnight,
+    bishop: cyanBishop,
+    queen: cyanQueen,
+    king: cyanKing,
+  },
+  magenta: {
+    pawn: magentaPawn,
+    rook: magentaRook,
+    knight: magentaKnight,
+    bishop: magentaBishop,
+    queen: magentaQueen,
+    king: magentaKing,
+  },
 };
 
 export function Piece3D({ piece, isSelected, onClick }: Piece3DProps) {
@@ -42,21 +63,7 @@ export function Piece3D({ piece, isSelected, onClick }: Piece3DProps) {
     }
   });
 
-  const color = PIECE_COLORS[piece.color];
-  const emissive = isSelected ? '#ffffff' : PIECE_EMISSIVE[piece.color];
-  const emissiveIntensity = isSelected ? 2 : 0.5;
-
-  const Geometry = useMemo(() => {
-    switch (piece.type) {
-      case 'pawn': return <sphereGeometry args={[0.6, 32, 32]} />;
-      case 'rook': return <boxGeometry args={[1.2, 1.2, 1.2]} />;
-      case 'bishop': return <coneGeometry args={[0.6, 1.5, 32]} />;
-      case 'knight': return <cylinderGeometry args={[0.6, 0.6, 1.2, 6]} />; // Hexagonal prism
-      case 'queen': return <dodecahedronGeometry args={[0.8]} />;
-      case 'king': return <icosahedronGeometry args={[0.9]} />;
-      default: return <boxGeometry args={[1, 1, 1]} />;
-    }
-  }, [piece.type]);
+  const imageSrc = PIECE_IMAGES[piece.color][piece.type];
 
   return (
     <mesh
@@ -67,20 +74,26 @@ export function Piece3D({ piece, isSelected, onClick }: Piece3DProps) {
       }}
       position={[piece.position.x * 1.2 - 4.8, piece.position.y * 2 - 3, piece.position.z * 1.2 - 4.8]}
     >
-      {Geometry}
-      <meshStandardMaterial
-        color={color}
-        emissive={emissive}
-        emissiveIntensity={emissiveIntensity}
-        roughness={0.2}
-        metalness={0.8}
+      <planeGeometry args={[1.5, 1.5]} />
+      <meshBasicMaterial
+        map={new TextureLoader().load(imageSrc)}
+        transparent={true}
+        fog={false}
       />
-      {/* Label for clarity */}
-      <Html position={[0, 1.5, 0]} center distanceFactor={10} style={{ pointerEvents: 'none' }}>
-        <div className={`text-[10px] font-bold tracking-widest uppercase ${piece.color === 'cyan' ? 'text-cyan-400' : 'text-pink-500'} opacity-50`}>
-          {piece.type}
-        </div>
-      </Html>
+      {/* Glow effect for selected pieces */}
+      {isSelected && (
+        <>
+          <mesh scale={1.15}>
+            <planeGeometry args={[1.5, 1.5]} />
+            <meshBasicMaterial
+              color="#ffffff"
+              transparent={true}
+              opacity={0.3}
+              fog={false}
+            />
+          </mesh>
+        </>
+      )}
     </mesh>
   );
 }
