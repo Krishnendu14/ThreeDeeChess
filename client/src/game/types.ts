@@ -16,4 +16,5 @@ export interface GameState {
   validMoves: Position[];
   winner: PieceColor | null;
   history: { from: Position; to: Position; pieceId: string }[];
+  promotionPending: string | null; // Piece ID that needs promotion
 }

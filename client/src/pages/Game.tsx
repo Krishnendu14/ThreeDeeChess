@@ -54,15 +54,26 @@ export default function Game() {
           return p;
         });
       
-      const nextTurn = gameState.currentTurn === 'cyan' ? 'magenta' : 'cyan';
+      // Check if pawn reached promotion zone
+      const movedPiece = newPieces.find(p => p.id === selectedPiece.id);
+      let promotionPending = null;
+      if (movedPiece && movedPiece.type === 'pawn') {
+        if ((movedPiece.color === 'cyan' && movedPiece.position.z === 7) ||
+            (movedPiece.color === 'magenta' && movedPiece.position.z === 0)) {
+          promotionPending = movedPiece.id;
+        }
+      }
+      
+      const nextTurn = promotionPending ? gameState.currentTurn : (gameState.currentTurn === 'cyan' ? 'magenta' : 'cyan');
       
       setGameState({
         pieces: newPieces,
         currentTurn: nextTurn,
         selectedPieceId: null,
         validMoves: [],
-        winner: null, // TODO: Check win condition
-        history: [...gameState.history, { from: selectedPiece.position, to: targetPos, pieceId: selectedPiece.id }]
+        winner: null,
+        history: [...gameState.history, { from: selectedPiece.position, to: targetPos, pieceId: selectedPiece.id }],
+        promotionPending
       });
     } else {
       // Deselect if clicking invalid empty cell
@@ -72,6 +83,26 @@ export default function Game() {
         validMoves: []
       }));
     }
+  };
+
+  const handlePawnPromotion = (newType: 'rook' | 'knight' | 'bishop' | 'queen') => {
+    setGameState(prev => {
+      const newPieces = prev.pieces.map(p => {
+        if (p.id === prev.promotionPending) {
+          return { ...p, type: newType };
+        }
+        return p;
+      });
+
+      const nextTurn = prev.currentTurn === 'cyan' ? 'magenta' : 'cyan';
+
+      return {
+        ...prev,
+        pieces: newPieces,
+        promotionPending: null,
+        currentTurn: nextTurn
+      };
+    });
   };
 
   const resetGame = () => {
@@ -176,6 +207,51 @@ export default function Game() {
           Scroll to Zoom
         </p>
       </div>
+
+      {/* Pawn Promotion Modal */}
+      {gameState.promotionPending && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/60" />
+          <Card className="relative bg-black/95 border-cyan-500 backdrop-blur-md p-8 max-w-sm">
+            <h2 className="text-cyan-400 text-center text-xl font-bold uppercase tracking-widest mb-4">
+              Pawn Promotion
+            </h2>
+            <p className="text-center text-sm text-gray-400 mb-6">
+              Select piece type for promotion:
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              <Button
+                onClick={() => handlePawnPromotion('rook')}
+                className="bg-cyan-600 hover:bg-cyan-500 text-white uppercase font-bold tracking-widest"
+                data-testid="button-promote-rook"
+              >
+                Rook
+              </Button>
+              <Button
+                onClick={() => handlePawnPromotion('knight')}
+                className="bg-cyan-600 hover:bg-cyan-500 text-white uppercase font-bold tracking-widest"
+                data-testid="button-promote-knight"
+              >
+                Knight
+              </Button>
+              <Button
+                onClick={() => handlePawnPromotion('bishop')}
+                className="bg-cyan-600 hover:bg-cyan-500 text-white uppercase font-bold tracking-widest"
+                data-testid="button-promote-bishop"
+              >
+                Bishop
+              </Button>
+              <Button
+                onClick={() => handlePawnPromotion('queen')}
+                className="bg-cyan-600 hover:bg-cyan-500 text-white uppercase font-bold tracking-widest"
+                data-testid="button-promote-queen"
+              >
+                Queen
+              </Button>
+            </div>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }

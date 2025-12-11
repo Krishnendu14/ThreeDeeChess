@@ -9,6 +9,7 @@ export const initialGameState: GameState = {
   validMoves: [],
   winner: null,
   history: [],
+  promotionPending: null,
 };
 
 function initializePieces(): Piece[] {
