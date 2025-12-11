@@ -1,20 +1,7 @@
-import { useRef, useMemo } from 'react';
+import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Mesh, Vector3, TextureLoader } from 'three';
-import { Piece, PieceColor, PieceType, Position } from '../../game/types';
-import { Html } from '@react-three/drei';
-import cyanPawn from '@assets/generated_images/cyan_chess_pawn_transparent.png';
-import cyanRook from '@assets/generated_images/cyan_chess_rook_transparent.png';
-import cyanKnight from '@assets/generated_images/cyan_chess_knight_transparent.png';
-import cyanBishop from '@assets/generated_images/cyan_chess_bishop_transparent.png';
-import cyanQueen from '@assets/generated_images/cyan_chess_queen_transparent.png';
-import cyanKing from '@assets/generated_images/cyan_chess_king_transparent.png';
-import magentaPawn from '@assets/generated_images/magenta_chess_pawn_transparent.png';
-import magentaRook from '@assets/generated_images/magenta_chess_rook_transparent.png';
-import magentaKnight from '@assets/generated_images/magenta_chess_knight_transparent.png';
-import magentaBishop from '@assets/generated_images/magenta_chess_bishop_transparent.png';
-import magentaQueen from '@assets/generated_images/magenta_chess_queen_transparent.png';
-import magentaKing from '@assets/generated_images/magenta_chess_king_transparent.png';
+import { Mesh, Vector3, Group } from 'three';
+import { Piece, PieceColor, PieceType } from '../../game/types';
 
 interface Piece3DProps {
   piece: Piece;
@@ -22,105 +9,134 @@ interface Piece3DProps {
   onClick: (e: any) => void;
 }
 
-const PIECE_IMAGES: Record<PieceColor, Record<PieceType, string>> = {
-  cyan: {
-    pawn: cyanPawn,
-    rook: cyanRook,
-    knight: cyanKnight,
-    bishop: cyanBishop,
-    queen: cyanQueen,
-    king: cyanKing,
-  },
-  magenta: {
-    pawn: magentaPawn,
-    rook: magentaRook,
-    knight: magentaKnight,
-    bishop: magentaBishop,
-    queen: magentaQueen,
-    king: magentaKing,
-  },
+const PIECE_COLORS = {
+  cyan: '#00f0ff',
+  magenta: '#ff00aa',
+};
+
+const PIECE_EMISSIVE = {
+  cyan: '#00a0aa',
+  magenta: '#aa0077',
 };
 
 export function Piece3D({ piece, isSelected, onClick }: Piece3DProps) {
-  const meshRef = useRef<Mesh>(null);
+  const groupRef = useRef<Group>(null);
   
-  // Animate position
   useFrame((state, delta) => {
-    if (!meshRef.current) return;
+    if (!groupRef.current) return;
     
     const targetPos = new Vector3(
-      piece.position.x * 1.2 - 4.8, // Scale 1.2, Offset center
-      piece.position.y * 2 - 3, // Vertical spacing 2
+      piece.position.x * 1.2 - 4.8,
+      piece.position.y * 2 - 3,
       piece.position.z * 1.2 - 4.8
     );
     
-    // Smooth lerp
-    meshRef.current.position.lerp(targetPos, 10 * delta);
+    groupRef.current.position.lerp(targetPos, 10 * delta);
     
-    // Hover float effect
     if (isSelected) {
-      meshRef.current.position.y += Math.sin(state.clock.elapsedTime * 5) * 0.1;
+      groupRef.current.position.y += Math.sin(state.clock.elapsedTime * 5) * 0.1;
     }
   });
 
-  const imageSrc = PIECE_IMAGES[piece.color][piece.type];
+  const color = PIECE_COLORS[piece.color];
+  const emissive = isSelected ? '#ffffff' : PIECE_EMISSIVE[piece.color];
+  const emissiveIntensity = isSelected ? 2 : 0.5;
+
+  const renderPieceGeometry = () => {
+    switch (piece.type) {
+      case 'pawn':
+        return (
+          <mesh castShadow>
+            <sphereGeometry args={[0.5, 16, 16]} />
+            <meshStandardMaterial
+              color={color}
+              emissive={emissive}
+              emissiveIntensity={emissiveIntensity}
+              roughness={0.3}
+              metalness={0.7}
+            />
+          </mesh>
+        );
+      case 'rook':
+        return (
+          <mesh castShadow>
+            <boxGeometry args={[1.0, 1.4, 1.0]} />
+            <meshStandardMaterial
+              color={color}
+              emissive={emissive}
+              emissiveIntensity={emissiveIntensity}
+              roughness={0.3}
+              metalness={0.7}
+            />
+          </mesh>
+        );
+      case 'knight':
+        return (
+          <mesh castShadow>
+            <cylinderGeometry args={[0.5, 0.5, 1.2, 8]} />
+            <meshStandardMaterial
+              color={color}
+              emissive={emissive}
+              emissiveIntensity={emissiveIntensity}
+              roughness={0.3}
+              metalness={0.7}
+            />
+          </mesh>
+        );
+      case 'bishop':
+        return (
+          <mesh castShadow>
+            <coneGeometry args={[0.55, 1.6, 16]} />
+            <meshStandardMaterial
+              color={color}
+              emissive={emissive}
+              emissiveIntensity={emissiveIntensity}
+              roughness={0.3}
+              metalness={0.7}
+            />
+          </mesh>
+        );
+      case 'queen':
+        return (
+          <mesh castShadow>
+            <dodecahedronGeometry args={[0.7]} />
+            <meshStandardMaterial
+              color={color}
+              emissive={emissive}
+              emissiveIntensity={emissiveIntensity}
+              roughness={0.3}
+              metalness={0.7}
+            />
+          </mesh>
+        );
+      case 'king':
+        return (
+          <mesh castShadow>
+            <icosahedronGeometry args={[0.75]} />
+            <meshStandardMaterial
+              color={color}
+              emissive={emissive}
+              emissiveIntensity={emissiveIntensity}
+              roughness={0.3}
+              metalness={0.7}
+            />
+          </mesh>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <group
-      ref={meshRef as any}
+      ref={groupRef}
       onClick={(e) => {
         e.stopPropagation();
         onClick(e);
       }}
       position={[piece.position.x * 1.2 - 4.8, piece.position.y * 2 - 3, piece.position.z * 1.2 - 4.8]}
     >
-      {/* Front facing plane */}
-      <mesh rotation={[0, 0, 0]}>
-        <planeGeometry args={[1.5, 1.5]} />
-        <meshBasicMaterial
-          map={new TextureLoader().load(imageSrc)}
-          transparent={true}
-          fog={false}
-          side={2}
-        />
-      </mesh>
-      
-      {/* Back facing plane (rotated 180 degrees) for visibility when board rotates */}
-      <mesh rotation={[0, Math.PI, 0]}>
-        <planeGeometry args={[1.5, 1.5]} />
-        <meshBasicMaterial
-          map={new TextureLoader().load(imageSrc)}
-          transparent={true}
-          fog={false}
-          side={2}
-        />
-      </mesh>
-
-      {/* Glow effect for selected pieces */}
-      {isSelected && (
-        <>
-          <mesh scale={1.15} rotation={[0, 0, 0]}>
-            <planeGeometry args={[1.5, 1.5]} />
-            <meshBasicMaterial
-              color="#ffffff"
-              transparent={true}
-              opacity={0.3}
-              fog={false}
-              side={2}
-            />
-          </mesh>
-          <mesh scale={1.15} rotation={[0, Math.PI, 0]}>
-            <planeGeometry args={[1.5, 1.5]} />
-            <meshBasicMaterial
-              color="#ffffff"
-              transparent={true}
-              opacity={0.3}
-              fog={false}
-              side={2}
-            />
-          </mesh>
-        </>
-      )}
+      {renderPieceGeometry()}
     </group>
   );
 }
