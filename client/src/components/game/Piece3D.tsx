@@ -3,18 +3,18 @@ import { useFrame } from '@react-three/fiber';
 import { Mesh, Vector3, TextureLoader } from 'three';
 import { Piece, PieceColor, PieceType, Position } from '../../game/types';
 import { Html } from '@react-three/drei';
-import cyanPawn from '@assets/generated_images/cyan_glowing_chess_pawn.png';
-import cyanRook from '@assets/generated_images/cyan_glowing_chess_rook.png';
-import cyanKnight from '@assets/generated_images/cyan_glowing_chess_knight.png';
-import cyanBishop from '@assets/generated_images/cyan_glowing_chess_bishop.png';
-import cyanQueen from '@assets/generated_images/cyan_glowing_chess_queen.png';
-import cyanKing from '@assets/generated_images/cyan_glowing_chess_king.png';
-import magentaPawn from '@assets/generated_images/magenta_glowing_chess_pawn.png';
-import magentaRook from '@assets/generated_images/magenta_glowing_chess_rook.png';
-import magentaKnight from '@assets/generated_images/magenta_glowing_chess_knight.png';
-import magentaBishop from '@assets/generated_images/magenta_glowing_chess_bishop.png';
-import magentaQueen from '@assets/generated_images/magenta_glowing_chess_queen.png';
-import magentaKing from '@assets/generated_images/magenta_glowing_chess_king.png';
+import cyanPawn from '@assets/generated_images/cyan_chess_pawn_transparent.png';
+import cyanRook from '@assets/generated_images/cyan_chess_rook_transparent.png';
+import cyanKnight from '@assets/generated_images/cyan_chess_knight_transparent.png';
+import cyanBishop from '@assets/generated_images/cyan_chess_bishop_transparent.png';
+import cyanQueen from '@assets/generated_images/cyan_chess_queen_transparent.png';
+import cyanKing from '@assets/generated_images/cyan_chess_king_transparent.png';
+import magentaPawn from '@assets/generated_images/magenta_chess_pawn_transparent.png';
+import magentaRook from '@assets/generated_images/magenta_chess_rook_transparent.png';
+import magentaKnight from '@assets/generated_images/magenta_chess_knight_transparent.png';
+import magentaBishop from '@assets/generated_images/magenta_chess_bishop_transparent.png';
+import magentaQueen from '@assets/generated_images/magenta_chess_queen_transparent.png';
+import magentaKing from '@assets/generated_images/magenta_chess_king_transparent.png';
 
 interface Piece3DProps {
   piece: Piece;
@@ -66,34 +66,61 @@ export function Piece3D({ piece, isSelected, onClick }: Piece3DProps) {
   const imageSrc = PIECE_IMAGES[piece.color][piece.type];
 
   return (
-    <mesh
-      ref={meshRef}
+    <group
+      ref={meshRef as any}
       onClick={(e) => {
         e.stopPropagation();
         onClick(e);
       }}
       position={[piece.position.x * 1.2 - 4.8, piece.position.y * 2 - 3, piece.position.z * 1.2 - 4.8]}
     >
-      <planeGeometry args={[1.5, 1.5]} />
-      <meshBasicMaterial
-        map={new TextureLoader().load(imageSrc)}
-        transparent={true}
-        fog={false}
-      />
+      {/* Front facing plane */}
+      <mesh rotation={[0, 0, 0]}>
+        <planeGeometry args={[1.5, 1.5]} />
+        <meshBasicMaterial
+          map={new TextureLoader().load(imageSrc)}
+          transparent={true}
+          fog={false}
+          side={2}
+        />
+      </mesh>
+      
+      {/* Back facing plane (rotated 180 degrees) for visibility when board rotates */}
+      <mesh rotation={[0, Math.PI, 0]}>
+        <planeGeometry args={[1.5, 1.5]} />
+        <meshBasicMaterial
+          map={new TextureLoader().load(imageSrc)}
+          transparent={true}
+          fog={false}
+          side={2}
+        />
+      </mesh>
+
       {/* Glow effect for selected pieces */}
       {isSelected && (
         <>
-          <mesh scale={1.15}>
+          <mesh scale={1.15} rotation={[0, 0, 0]}>
             <planeGeometry args={[1.5, 1.5]} />
             <meshBasicMaterial
               color="#ffffff"
               transparent={true}
               opacity={0.3}
               fog={false}
+              side={2}
+            />
+          </mesh>
+          <mesh scale={1.15} rotation={[0, Math.PI, 0]}>
+            <planeGeometry args={[1.5, 1.5]} />
+            <meshBasicMaterial
+              color="#ffffff"
+              transparent={true}
+              opacity={0.3}
+              fog={false}
+              side={2}
             />
           </mesh>
         </>
       )}
-    </mesh>
+    </group>
   );
 }
