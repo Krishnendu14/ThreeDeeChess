@@ -2,7 +2,7 @@ import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Mesh, Vector3, TextureLoader } from 'three';
 import { Piece, PieceColor, PieceType, Position } from '../../game/types';
-import { Html } from '@react-three/drei';
+import { Billboard } from '@react-three/drei';
 import cyanPawn from '@assets/generated_images/cyan_chess_pawn_transparent.png';
 import cyanRook from '@assets/generated_images/cyan_chess_rook_transparent.png';
 import cyanKnight from '@assets/generated_images/cyan_chess_knight_transparent.png';
@@ -42,84 +42,84 @@ const PIECE_IMAGES: Record<PieceColor, Record<PieceType, string>> = {
 };
 
 export function Piece3D({ piece, isSelected, onClick }: Piece3DProps) {
-  const meshRef = useRef<Mesh>(null);
+  const groupRef = useRef<any>(null);
+  const animationTimeRef = useRef(0);
   
   // Animate position
   useFrame((state, delta) => {
-    if (!meshRef.current) return;
+    if (!groupRef.current) return;
+    
+    animationTimeRef.current += delta;
     
     const targetPos = new Vector3(
-      piece.position.x * 1.2 - 4.8, // Scale 1.2, Offset center
-      piece.position.y * 2 - 3, // Vertical spacing 2
+      piece.position.x * 1.2 - 4.8,
+      piece.position.y * 2 - 3,
       piece.position.z * 1.2 - 4.8
     );
     
-    // Smooth lerp
-    meshRef.current.position.lerp(targetPos, 10 * delta);
+    // Smooth lerp with easing
+    groupRef.current.position.lerp(targetPos, Math.min(8 * delta, 1));
     
-    // Hover float effect
+    // Enhanced selection effect: pulsing glow
     if (isSelected) {
-      meshRef.current.position.y += Math.sin(state.clock.elapsedTime * 5) * 0.1;
+      const pulse = Math.sin(state.clock.elapsedTime * 3) * 0.15 + 0.85;
+      groupRef.current.scale.set(pulse, pulse, pulse);
+      
+      // Vertical bobbing animation
+      groupRef.current.position.y += Math.sin(state.clock.elapsedTime * 4) * 0.08;
+    } else {
+      // Reset scale smoothly
+      groupRef.current.scale.lerp(new Vector3(1, 1, 1), 5 * delta);
     }
   });
 
   const imageSrc = PIECE_IMAGES[piece.color][piece.type];
+  const textureLoader = useMemo(() => new TextureLoader(), []);
+  const texture = useMemo(() => textureLoader.load(imageSrc), [imageSrc, textureLoader]);
 
   return (
     <group
-      ref={meshRef as any}
+      ref={groupRef}
       onClick={(e) => {
         e.stopPropagation();
         onClick(e);
       }}
       position={[piece.position.x * 1.2 - 4.8, piece.position.y * 2 - 3, piece.position.z * 1.2 - 4.8]}
     >
-      {/* Front facing plane */}
-      <mesh rotation={[0, 0, 0]}>
-        <planeGeometry args={[1.5, 1.5]} />
-        <meshBasicMaterial
-          map={new TextureLoader().load(imageSrc)}
-          transparent={true}
-          fog={false}
-          side={2}
-        />
-      </mesh>
-      
-      {/* Back facing plane (rotated 180 degrees) for visibility when board rotates */}
-      <mesh rotation={[0, Math.PI, 0]}>
-        <planeGeometry args={[1.5, 1.5]} />
-        <meshBasicMaterial
-          map={new TextureLoader().load(imageSrc)}
-          transparent={true}
-          fog={false}
-          side={2}
-        />
-      </mesh>
+      {/* Billboard piece - always faces camera */}
+      <Billboard>
+        <mesh>
+          <planeGeometry args={[1.5, 1.5]} />
+          <meshBasicMaterial
+            map={texture}
+            transparent={true}
+            fog={false}
+          />
+        </mesh>
+      </Billboard>
 
-      {/* Glow effect for selected pieces */}
+      {/* Enhanced glow effect for selected pieces */}
       {isSelected && (
-        <>
-          <mesh scale={1.15} rotation={[0, 0, 0]}>
+        <Billboard>
+          <mesh scale={1.25} position={[0, 0, -0.01]}>
+            <planeGeometry args={[1.5, 1.5]} />
+            <meshBasicMaterial
+              color={piece.color === 'cyan' ? '#00f0ff' : '#ff00aa'}
+              transparent={true}
+              opacity={0.4}
+              fog={false}
+            />
+          </mesh>
+          <mesh scale={1.1} position={[0, 0, -0.02]}>
             <planeGeometry args={[1.5, 1.5]} />
             <meshBasicMaterial
               color="#ffffff"
               transparent={true}
-              opacity={0.3}
+              opacity={0.2}
               fog={false}
-              side={2}
             />
           </mesh>
-          <mesh scale={1.15} rotation={[0, Math.PI, 0]}>
-            <planeGeometry args={[1.5, 1.5]} />
-            <meshBasicMaterial
-              color="#ffffff"
-              transparent={true}
-              opacity={0.3}
-              fog={false}
-              side={2}
-            />
-          </mesh>
-        </>
+        </Billboard>
       )}
     </group>
   );
