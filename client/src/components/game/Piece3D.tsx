@@ -1,20 +1,8 @@
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Mesh, Vector3, TextureLoader } from 'three';
+import { Mesh, Vector3 } from 'three';
 import { Piece, PieceColor, PieceType, Position } from '../../game/types';
-import { Billboard } from '@react-three/drei';
-import cyanPawn from '@assets/generated_images/cyan_chess_pawn_transparent.png';
-import cyanRook from '@assets/generated_images/cyan_chess_rook_transparent.png';
-import cyanKnight from '@assets/generated_images/cyan_chess_knight_transparent.png';
-import cyanBishop from '@assets/generated_images/cyan_chess_bishop_transparent.png';
-import cyanQueen from '@assets/generated_images/cyan_chess_queen_transparent.png';
-import cyanKing from '@assets/generated_images/cyan_chess_king_transparent.png';
-import magentaPawn from '@assets/generated_images/magenta_chess_pawn_transparent.png';
-import magentaRook from '@assets/generated_images/magenta_chess_rook_transparent.png';
-import magentaKnight from '@assets/generated_images/magenta_chess_knight_transparent.png';
-import magentaBishop from '@assets/generated_images/magenta_chess_bishop_transparent.png';
-import magentaQueen from '@assets/generated_images/magenta_chess_queen_transparent.png';
-import magentaKing from '@assets/generated_images/magenta_chess_king_transparent.png';
+import { Html } from '@react-three/drei';
 
 interface Piece3DProps {
   piece: Piece;
@@ -22,105 +10,77 @@ interface Piece3DProps {
   onClick: (e: any) => void;
 }
 
-const PIECE_IMAGES: Record<PieceColor, Record<PieceType, string>> = {
-  cyan: {
-    pawn: cyanPawn,
-    rook: cyanRook,
-    knight: cyanKnight,
-    bishop: cyanBishop,
-    queen: cyanQueen,
-    king: cyanKing,
-  },
-  magenta: {
-    pawn: magentaPawn,
-    rook: magentaRook,
-    knight: magentaKnight,
-    bishop: magentaBishop,
-    queen: magentaQueen,
-    king: magentaKing,
-  },
+const PIECE_COLORS = {
+  cyan: '#00f0ff', // Cyan
+  magenta: '#ff00aa', // Magenta
+};
+
+const PIECE_EMISSIVE = {
+  cyan: '#00a0aa',
+  magenta: '#aa0077',
 };
 
 export function Piece3D({ piece, isSelected, onClick }: Piece3DProps) {
-  const groupRef = useRef<any>(null);
-  const animationTimeRef = useRef(0);
+  const meshRef = useRef<Mesh>(null);
   
   // Animate position
   useFrame((state, delta) => {
-    if (!groupRef.current) return;
-    
-    animationTimeRef.current += delta;
+    if (!meshRef.current) return;
     
     const targetPos = new Vector3(
-      piece.position.x * 1.2 - 4.8,
-      piece.position.y * 2 - 3,
+      piece.position.x * 1.2 - 4.8, // Scale 1.2, Offset center
+      piece.position.y * 2 - 3, // Vertical spacing 2
       piece.position.z * 1.2 - 4.8
     );
     
-    // Smooth lerp with easing
-    groupRef.current.position.lerp(targetPos, Math.min(8 * delta, 1));
+    // Smooth lerp
+    meshRef.current.position.lerp(targetPos, 10 * delta);
     
-    // Enhanced selection effect: pulsing glow
+    // Hover float effect
     if (isSelected) {
-      const pulse = Math.sin(state.clock.elapsedTime * 3) * 0.15 + 0.85;
-      groupRef.current.scale.set(pulse, pulse, pulse);
-      
-      // Vertical bobbing animation
-      groupRef.current.position.y += Math.sin(state.clock.elapsedTime * 4) * 0.08;
-    } else {
-      // Reset scale smoothly
-      groupRef.current.scale.lerp(new Vector3(1, 1, 1), 5 * delta);
+      meshRef.current.position.y += Math.sin(state.clock.elapsedTime * 5) * 0.1;
     }
   });
 
-  const imageSrc = PIECE_IMAGES[piece.color][piece.type];
-  const textureLoader = useMemo(() => new TextureLoader(), []);
-  const texture = useMemo(() => textureLoader.load(imageSrc), [imageSrc, textureLoader]);
+  const color = PIECE_COLORS[piece.color];
+  const emissive = isSelected ? '#ffffff' : PIECE_EMISSIVE[piece.color];
+  const emissiveIntensity = isSelected ? 2 : 0.5;
+
+  const Geometry = useMemo(() => {
+    switch (piece.type) {
+      case 'pawn': return <sphereGeometry args={[0.6, 32, 32]} />;
+      case 'rook': return <boxGeometry args={[1.2, 1.2, 1.2]} />;
+      case 'bishop': return <coneGeometry args={[0.6, 1.5, 32]} />;
+      case 'knight': return <cylinderGeometry args={[0.6, 0.6, 1.2, 6]} />; // Hexagonal prism
+      case 'queen': return <dodecahedronGeometry args={[0.8]} />;
+      case 'king': return <icosahedronGeometry args={[0.9]} />;
+      default: return <boxGeometry args={[1, 1, 1]} />;
+    }
+  }, [piece.type]);
 
   return (
-    <group
-      ref={groupRef}
+    <mesh
+      ref={meshRef}
       onClick={(e) => {
         e.stopPropagation();
         onClick(e);
       }}
       position={[piece.position.x * 1.2 - 4.8, piece.position.y * 2 - 3, piece.position.z * 1.2 - 4.8]}
     >
-      {/* Billboard piece - always faces camera */}
-      <Billboard>
-        <mesh>
-          <planeGeometry args={[1.5, 1.5]} />
-          <meshBasicMaterial
-            map={texture}
-            transparent={true}
-            fog={false}
-          />
-        </mesh>
-      </Billboard>
-
-      {/* Enhanced glow effect for selected pieces */}
-      {isSelected && (
-        <Billboard>
-          <mesh scale={1.25} position={[0, 0, -0.01]}>
-            <planeGeometry args={[1.5, 1.5]} />
-            <meshBasicMaterial
-              color={piece.color === 'cyan' ? '#00f0ff' : '#ff00aa'}
-              transparent={true}
-              opacity={0.4}
-              fog={false}
-            />
-          </mesh>
-          <mesh scale={1.1} position={[0, 0, -0.02]}>
-            <planeGeometry args={[1.5, 1.5]} />
-            <meshBasicMaterial
-              color="#ffffff"
-              transparent={true}
-              opacity={0.2}
-              fog={false}
-            />
-          </mesh>
-        </Billboard>
-      )}
-    </group>
+      {Geometry}
+      <meshStandardMaterial
+        color={color}
+        emissive={emissive}
+        emissiveIntensity={emissiveIntensity}
+        roughness={0.2}
+        metalness={0.8}
+      />
+      {/* Label for clarity */}
+      <Html position={[0, 1.5, 0]} center distanceFactor={10} style={{ pointerEvents: 'none' }}>
+        <div className={`text-[10px] font-bold tracking-widest uppercase ${piece.color === 'cyan' ? 'text-cyan-400' : 'text-pink-500'} opacity-50`}>
+          {piece.type}
+        </div>
+      </Html>
+    </mesh>
   );
 }
