@@ -1,5 +1,9 @@
 # ⚡ Welcome to my Digital Garden
-
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="github-snake-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="github-snake.svg" />
+  <img alt="github-snake" src="github-snake.svg" />
+</picture>
 <table border="0">
   <tr>
     <td width="60%" valign="top">
