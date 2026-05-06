@@ -1,52 +1,48 @@
-<div align="center">
+# ⚡ Welcome to my Digital Garden
 
-# Hi there, I'm Krishnendu👋
-### 🚀 Full Stack Developer | UI/UX Enthusiast | Open Source Contributor
-
-<img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=tokyonight" alt="Quote" />
-
----
-
-### 🛠️ My Tech Stack
-
-![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/javascript-%23F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black)
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-
----
-
-### 📊 GitHub Stats
-
-<table>
+<table border="0">
   <tr>
-    <td width="50%">
-      <img src="https://github-readme-stats.vercel.app/api?username=[YOUR_USERNAME]&show_icons=true&theme=tokyonight&hide_border=true&count_private=true" width="100%" />
+    <td width="60%" valign="top">
+      <h1>I'm [Your Name]</h1>
+      
+      <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1000&color=3B82F6&width=435&lines=Full+Stack+Developer;Open+Source+Contributor;Constant+Learner" alt="Typing SVG" />
+
+      <p>I focus on building scalable systems and clean user interfaces. Currently exploring the intersection of AI and web performance.</p>
+
+      ### 🛠️ Expertise
+      `Javascript` `TypeScript` `React` `Node.js` `Python` `PostgreSQL` `Docker` `AWS`
+
+      ### 🔭 My Focus for 2026
+      - 🏗️ Building [Project Name]
+      - 🦀 Learning Rust for high-performance backend
+      - ✍️ Writing about tech on [Your Blog/Medium]
     </td>
-    <td width="50%">
-      <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=[YOUR_USERNAME]&layout=compact&theme=tokyonight&hide_border=true" width="100%" />
+    <td width="40%" valign="top">
+      <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=[YOUR_USERNAME]&layout=compact&theme=transparent&hide_border=true&title_color=3B82F6&text_color=ffffff" width="100%" />
     </td>
   </tr>
 </table>
 
-<br/>
+---
 
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=[YOUR_USERNAME]&theme=tokyonight&hide_border=true" width="100%" />
+### 🕹️ The Contribution Jungle
+![snake gif](https://github.com/[YOUR_USERNAME]/[YOUR_USERNAME]/blob/output/github-contribution-snake.svg)
 
 ---
 
-### 📬 Connect with me
+### 📊 Vital Signs
+<p align="left">
+<img src="https://github-readme-stats.vercel.app/api?username=[YOUR_USERNAME]&show_icons=true&theme=transparent&hide_border=true&title_color=3B82F6&text_color=ffffff&icon_color=3B82F6" height="150" />
+<img src="https://github-readme-streak-stats.herokuapp.com/?user=[YOUR_USERNAME]&theme=transparent&hide_border=true&stroke=3B82F6&ring=3B82F6&fire=3B82F6&currStreakLabel=3B82F6" height="150" />
+</p>
 
-[![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/[YOUR_LINKEDIN])
-[![Twitter](https://img.shields.io/badge/Twitter-%231DA1F2.svg?style=for-the-badge&logo=Twitter&logoColor=white)](https://twitter.com/[YOUR_TWITTER])
-[![Portfolio](https://img.shields.io/badge/Portfolio-%23000000.svg?style=for-the-badge&logo=firefox&logoColor=white)](https://yourwebsite.com)
+---
 
-</div>
+### 🤝 Connect
+<a href="https://linkedin.com/in/[YOUR_LINKEDIN]"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white" /></a>
+<a href="mailto:[YOUR_EMAIL]"><img src="https://img.shields.io/badge/Email-D14836?style=flat&logo=gmail&logoColor=white" /></a>
+<a href="https://twitter.com/[YOUR_TWITTER]"><img src="https://img.shields.io/badge/Twitter-1DA1F2?style=flat&logo=twitter&logoColor=white" /></a>
 
 <br />
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer" width="100%"/>
-</p>
+
+<p align="right"><sub>Last updated: May 2026</sub></p>
