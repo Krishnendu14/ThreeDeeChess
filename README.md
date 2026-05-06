@@ -3,19 +3,19 @@
 <table border="0">
   <tr>
     <td width="60%" valign="top">
-      <h1>I'm [Your Name]</h1>
+      <h1>I'm Krishnendu </h1>
       
       <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1000&color=3B82F6&width=435&lines=Full+Stack+Developer;Open+Source+Contributor;Constant+Learner" alt="Typing SVG" />
 
       <p>I focus on building scalable systems and clean user interfaces. Currently exploring the intersection of AI and web performance.</p>
 
       ### 🛠️ Expertise
-      `Javascript` `TypeScript` `React` `Node.js` `Python` `PostgreSQL` `Docker` `AWS`
+      `Javascript` `TypeScript` `React` `Node.js` `Python`
 
       ### 🔭 My Focus for 2026
-      - 🏗️ Building [Project Name]
-      - 🦀 Learning Rust for high-performance backend
-      - ✍️ Writing about tech on [Your Blog/Medium]
+      - 🏗️ Building a system that detect moving object through the wall
+      - 🦀 Learning about augmented reality (AR)
+      - ✍️ Writing my own research paper and publish it.
     </td>
     <td width="40%" valign="top">
       <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=[YOUR_USERNAME]&layout=compact&theme=transparent&hide_border=true&title_color=3B82F6&text_color=ffffff" width="100%" />
