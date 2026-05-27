@@ -4,6 +4,8 @@
 <table border="0">
   <tr>
     <td width="60%" valign="top">
+      <p>play online link</p>
+      <p>https://three-dee-chess--ranjitabar18.replit.app</p>
       <h1>Hi, I'm Krishnendu 👋</h1>
       <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1000&color=3B82F6&width=435&lines=Full+Stack+Developer;Creative+Thinker;Problem+Solver" alt="Typing SVG" />
       <p>I build clean, modern web applications. Currently focused on mastering the latest frontend technologies and improving user experiences.</p>
