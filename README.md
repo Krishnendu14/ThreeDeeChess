@@ -23,8 +23,8 @@
 
 ### 📊 Performance Metrics
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=[YOUR_USERNAME]&show_icons=true&theme=transparent&hide_border=true&title_color=3B82F6&text_color=ffffff&icon_color=3B82F6" width="48%" />
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=[YOUR_USERNAME]&theme=transparent&hide_border=true&stroke=3B82F6&ring=3B82F6&fire=3B82F6&currStreakLabel=3B82F6" width="48%" />
+  <img src="https://github-readme-stats.vercel.app/api?username=krishnendu14&show_icons=true&theme=transparent&hide_border=true&title_color=3B82F6&text_color=ffffff&icon_color=3B82F6" width="48%" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=krishnendu14&theme=transparent&hide_border=true&stroke=3B82F6&ring=3B82F6&fire=3B82F6&currStreakLabel=3B82F6" width="48%" />
 </p>
 
 ---
