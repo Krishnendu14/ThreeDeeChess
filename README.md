@@ -13,13 +13,13 @@
       <p>JS • TS • React • Node • Python</p>
     </td>
     <td width="40%" valign="top">
-      <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=[YOUR_USERNAME]&layout=compact&theme=transparent&hide_border=true&title_color=3B82F6&text_color=ffffff" width="100%" />
+      <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=krishnendu14&layout=compact&theme=transparent&hide_border=true&title_color=3B82F6&text_color=ffffff" width="100%" />
     </td>
   </tr>
 </table>
 
 ### 🕹️ Contribution Snake
-![Snake Animation](https://raw.githubusercontent.com/[YOUR_USERNAME]/[YOUR_USERNAME]/output/github-contribution-grid-snake.svg)
+![Snake Animation](https://raw.githubusercontent.com/krishnendu14/krishnendu14/output/github-contribution-grid-snake.svg)
 
 ### 📊 Performance Metrics
 <p align="center">
