@@ -31,4 +31,4 @@ jobs:
           build_dir: dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FORCE\_JAVASCRIPT\_ACTIONS\_TO\_NODE24:true
+          FORCE\_JAVASCRIPT\_ACTIONS\_TO\_NODE24: true
