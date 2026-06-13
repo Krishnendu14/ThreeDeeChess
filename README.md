@@ -19,7 +19,7 @@
 </table>
 
 ### 🕹️ Contribution Snake
-![Snake Animation](https://raw.githubusercontent.com/krishnendu14/krishnendu14/output/github-contribution-grid-snake.svg)
+![Snake Animation](https://raw.githubusercontent.com/krishnendu14/ThreeDeeChess/output/github-contribution-grid-snake.svg)
 
 ### 📊 Performance Metrics
 <p align="center">
